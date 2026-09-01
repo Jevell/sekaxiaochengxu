@@ -5,7 +5,7 @@ import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 
 export function ProfilePage() {
-  const { push, records, logout, showToast } = useStore()
+  const { push, records, logout, showToast, profile } = useStore()
 
   const menu = [
     { icon: User, label: "我的资料", onClick: () => push({ type: "profileInfo" }) },
@@ -26,8 +26,8 @@ export function ProfilePage() {
             <User className="h-8 w-8" />
           </div>
           <div>
-            <p className="text-lg font-semibold text-foreground">陈女士</p>
-            <p className="text-sm text-muted-foreground">138 **** 6621</p>
+            <p className="text-lg font-semibold text-foreground">{profile.nickname}</p>
+            <p className="text-sm text-muted-foreground">{profile.phone}</p>
           </div>
         </div>
       </header>
