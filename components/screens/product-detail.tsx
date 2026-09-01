@@ -1,10 +1,12 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { ChevronLeft, Heart, Headset, Scissors } from "lucide-react"
+import { ChevronLeft, Heart, Headset, Scissors, Expand } from "lucide-react"
 import { imageTypeMeta, type Product } from "@/lib/data"
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
+import { Watermark } from "@/components/watermark"
+import { ImageViewer } from "@/components/image-viewer"
 
 export function ProductDetail({
   product,
@@ -38,6 +40,9 @@ export function ProductDetail({
 
   const [activeType, setActiveType] = useState(groups[0]?.type)
   const [mainSrc, setMainSrc] = useState(flat[0]?.src)
+  const [viewerOpen, setViewerOpen] = useState(false)
+
+  const mainLabel = flat.find((f) => f.src === mainSrc)?.label
 
   const thumbs = groups.find((g) => g.type === activeType)?.images ?? []
 
@@ -63,16 +68,27 @@ export function ProductDetail({
       </header>
 
       {/* main image (pulled under the transparent header) */}
-      <div className="relative -mt-[60px] bg-muted">
+      <button
+        type="button"
+        onClick={() => setViewerOpen(true)}
+        aria-label="放大查看图片"
+        className="relative -mt-[60px] block w-full bg-muted"
+      >
         <img
           src={mainSrc || "/placeholder.svg"}
           alt={product.name}
           className="aspect-square w-full object-cover md:aspect-[4/3]"
         />
+        {/* 品牌水印 */}
+        <Watermark />
         <span className="absolute bottom-8 left-4 rounded-full bg-foreground/60 px-2.5 py-1 text-xs text-background backdrop-blur">
-          {flat.find((f) => f.src === mainSrc)?.label}
+          {mainLabel}
         </span>
-      </div>
+        <span className="absolute bottom-8 right-4 flex items-center gap-1 rounded-full bg-foreground/60 px-2.5 py-1 text-xs text-background backdrop-blur">
+          <Expand className="h-3.5 w-3.5" />
+          点击放大
+        </span>
+      </button>
 
       {/* info sheet pulled up over the image */}
       <div className="relative -mt-5 flex-1 rounded-t-3xl bg-background pt-4">
@@ -195,6 +211,10 @@ export function ProductDetail({
           申请剪样
         </button>
       </div>
+
+      {viewerOpen && mainSrc && (
+        <ImageViewer src={mainSrc} label={mainLabel} onClose={() => setViewerOpen(false)} />
+      )}
     </div>
   )
 }
