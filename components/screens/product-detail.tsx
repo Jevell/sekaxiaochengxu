@@ -17,8 +17,8 @@ export function ProductDetail({
   const [active, setActive] = useState(0)
   const faved = isFavorite(product.id)
 
-  // simulate multiple angles by reusing the main image
-  const gallery = product.images.length > 1 ? product.images : [product.images[0], product.images[0]]
+  const gallery = product.images
+  const showDots = gallery.length > 1
 
   const specs = [
     { label: "成分", value: product.composition },
@@ -54,17 +54,19 @@ export function ProductDetail({
             />
           ))}
         </div>
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
-          {gallery.map((_, i) => (
-            <span
-              key={i}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === active ? "w-4 bg-primary" : "w-1.5 bg-background/70",
-              )}
-            />
-          ))}
-        </div>
+        {showDots && (
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {gallery.map((_, i) => (
+              <span
+                key={i}
+                className={cn(
+                  "h-1.5 rounded-full transition-all",
+                  i === active ? "w-4 bg-primary" : "w-1.5 bg-background/70",
+                )}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* title block */}
