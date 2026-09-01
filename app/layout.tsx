@@ -1,10 +1,23 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google'
 import './globals.css'
 
+const notoSans = Noto_Sans_SC({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-noto-sans-sc',
+})
+
+const notoSerif = Noto_Serif_SC({
+  subsets: ['latin'],
+  weight: ['500', '600'],
+  variable: '--font-noto-serif-sc',
+})
+
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: '电子色卡 · 面料展示',
+  description: '查看面料产品、搜索、收藏并提交剪样申请',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -26,11 +39,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'light',
+  themeColor: '#f4f2ea',
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({
@@ -39,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="antialiased">
+    <html lang="zh-CN" className={`bg-background ${notoSans.variable} ${notoSerif.variable}`}>
+      <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
