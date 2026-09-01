@@ -8,7 +8,7 @@ export type Tab = "cards" | "favorites" | "profile"
 
 export type Screen =
   | { type: "product"; id: string }
-  | { type: "search"; ai?: boolean }
+  | { type: "search" }
   | { type: "colorFamily" }
   | { type: "records" }
   | { type: "recordDetail"; id: string }

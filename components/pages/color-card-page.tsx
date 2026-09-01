@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Loader2, RefreshCw, Search, Sparkles } from "lucide-react"
+import { Loader2, RefreshCw, Search } from "lucide-react"
 import { categories, products } from "@/lib/data"
 import { useStore } from "@/lib/store"
 import { FeaturedCard, ProductCard } from "@/components/product-card"
@@ -53,25 +53,14 @@ export function ColorCardPage() {
             <RefreshCw className={cn("h-4 w-4", refreshing && "animate-spin")} />
           </button>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => push({ type: "search" })}
-            className="flex flex-1 items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm text-muted-foreground"
-          >
-            <Search className="h-4 w-4" />
-            搜索面料名称或编号
-          </button>
-          <button
-            type="button"
-            onClick={() => push({ type: "search", ai: true })}
-            aria-label="AI 识图搜索，上传图片找相似面料"
-            className="flex h-11 items-center gap-1.5 rounded-full bg-primary px-3.5 text-sm font-medium text-primary-foreground"
-          >
-            <Sparkles className="h-4 w-4" />
-            AI 搜图
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => push({ type: "search" })}
+          className="flex w-full items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-sm text-muted-foreground"
+        >
+          <Search className="h-4 w-4" />
+          搜索面料名称或编号
+        </button>
       </header>
 
       {/* signature: color spectrum quick-pick */}
