@@ -22,7 +22,7 @@ function TabPages() {
   const { tab, isLoggedIn } = useStore()
 
   return (
-    <div className="min-h-full">
+    <div className="h-full min-h-full">
       {tab === "cards" && <ColorCardPage />}
       {tab === "favorites" && <FavoritesPage />}
       {tab === "profile" && (isLoggedIn ? <ProfilePage /> : <LoginPage />)}
