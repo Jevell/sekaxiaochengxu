@@ -28,9 +28,9 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-full flex-col bg-background px-8">
+    <div className="flex min-h-full flex-col items-center justify-center bg-background px-8">
       {/* brand */}
-      <div className="flex flex-1 flex-col items-center justify-center">
+      <div className="flex flex-col items-center">
         <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
           <span className="font-serif text-3xl font-semibold">锦</span>
         </div>
@@ -39,7 +39,7 @@ export function LoginPage() {
       </div>
 
       {/* actions */}
-      <div className="flex flex-col gap-3 pb-10">
+      <div className="mt-10 flex w-full flex-col gap-3">
         <button
           type="button"
           onClick={handleWechatLogin}
