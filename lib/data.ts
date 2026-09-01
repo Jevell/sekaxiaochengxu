@@ -13,11 +13,22 @@ export type ImageGroup = {
   images: string[]
 }
 
+export const colorFamilies = [
+  { id: "neutral", name: "米白系", hex: "#e3d9c4" },
+  { id: "green", name: "绿色系", hex: "#9caa93" },
+  { id: "blue", name: "蓝色系", hex: "#37485f" },
+  { id: "brown", name: "棕橙系", hex: "#b56a4b" },
+  { id: "yellow", name: "黄色系", hex: "#c9922f" },
+  { id: "pink", name: "粉色系", hex: "#e6c9cb" },
+  { id: "gray", name: "灰黑系", hex: "#4a4a4d" },
+]
+
 export type Product = {
   id: string
   name: string
   code: string
   category: string
+  family: string
   images: string[]
   imageGroups: ImageGroup[]
   composition: string
@@ -65,6 +76,7 @@ export const products: Product[] = [
     name: "本色亚麻布",
     code: "LN-2401",
     category: "cotton",
+    family: "neutral",
     images: ["/fabrics/linen-oat.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/linen-oat.png"] },
@@ -88,6 +100,7 @@ export const products: Product[] = [
     name: "鼠尾草纯棉",
     code: "CT-1088",
     category: "cotton",
+    family: "green",
     images: ["/fabrics/sage-cotton.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/sage-cotton.png"] },
@@ -108,6 +121,7 @@ export const products: Product[] = [
     name: "靛蓝水洗牛仔",
     code: "DN-3302",
     category: "denim",
+    family: "blue",
     images: ["/fabrics/navy-denim.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/navy-denim.png"] },
@@ -128,6 +142,7 @@ export const products: Product[] = [
     name: "陶土羊毛呢",
     code: "WL-5510",
     category: "wool",
+    family: "brown",
     images: ["/fabrics/terracotta-wool.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/terracotta-wool.png"] },
@@ -148,6 +163,7 @@ export const products: Product[] = [
     name: "奶油真丝缎",
     code: "SK-2205",
     category: "silk",
+    family: "neutral",
     images: ["/fabrics/cream-silk.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/cream-silk.png"] },
@@ -168,6 +184,7 @@ export const products: Product[] = [
     name: "橄榄斜纹布",
     code: "TW-4417",
     category: "cotton",
+    family: "green",
     images: ["/fabrics/olive-twill.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/olive-twill.png"] },
@@ -188,6 +205,7 @@ export const products: Product[] = [
     name: "藕粉雪纺纱",
     code: "CF-7701",
     category: "chiffon",
+    family: "pink",
     images: ["/fabrics/blush-chiffon.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/blush-chiffon.png"] },
@@ -208,6 +226,7 @@ export const products: Product[] = [
     name: "炭灰精纺呢",
     code: "WL-5588",
     category: "wool",
+    family: "gray",
     images: ["/fabrics/charcoal-wool.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/charcoal-wool.png"] },
@@ -228,6 +247,7 @@ export const products: Product[] = [
     name: "姜黄灯芯绒",
     code: "CD-6620",
     category: "corduroy",
+    family: "yellow",
     images: ["/fabrics/mustard-corduroy.png"],
     imageGroups: [
       { type: "main", images: ["/fabrics/mustard-corduroy.png"] },
@@ -281,7 +301,7 @@ export const initialRecords: SampleRecord[] = [
 ]
 
 export const statusMeta: Record<SampleStatus, { label: string; className: string }> = {
-  pending: { label: "待处理", className: "bg-secondary text-secondary-foreground" },
+  pending: { label: "待��理", className: "bg-secondary text-secondary-foreground" },
   processing: { label: "处理中", className: "bg-primary/15 text-primary" },
   done: { label: "已完成", className: "bg-muted text-muted-foreground" },
 }

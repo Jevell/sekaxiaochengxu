@@ -67,7 +67,13 @@ export function ColorCardPage() {
       <section className="px-4 pb-1 pt-3">
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="text-sm font-medium text-foreground">按色系挑选</h2>
-          <span className="text-[11px] text-muted-foreground">点击色块直达面料</span>
+          <button
+            type="button"
+            onClick={() => push({ type: "colorFamily" })}
+            className="text-[11px] text-primary"
+          >
+            全部色系 ›
+          </button>
         </div>
         <div className="no-scrollbar flex gap-3 overflow-x-auto pb-1">
           {products.map((p) => (

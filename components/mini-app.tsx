@@ -17,6 +17,7 @@ import { RecordsScreen } from "@/components/screens/records-screen"
 import { RecordDetail } from "@/components/screens/record-detail"
 import { ServiceScreen } from "@/components/screens/service-screen"
 import { ProfileInfoScreen } from "@/components/screens/profile-info-screen"
+import { ColorFamilyScreen } from "@/components/screens/color-family-screen"
 
 function TabPages() {
   const { tab, isLoggedIn } = useStore()
@@ -38,6 +39,7 @@ function ScreenOverlay({ onApplySample }: { onApplySample: (p: Product) => void 
   return (
     <div className="no-scrollbar absolute inset-0 z-30 overflow-y-auto bg-background">
       {currentScreen.type === "search" && <SearchScreen />}
+      {currentScreen.type === "colorFamily" && <ColorFamilyScreen />}
       {currentScreen.type === "product" && (
         <ProductDetail
           product={products.find((p) => p.id === currentScreen.id)!}
