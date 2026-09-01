@@ -1,11 +1,11 @@
 "use client"
 
-import { ChevronRight, ClipboardList, Headset, ShieldCheck, User } from "lucide-react"
+import { ChevronRight, ClipboardList, Headset, LogOut, User } from "lucide-react"
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 
 export function ProfilePage() {
-  const { push, isEmployee, setEmployee, records, showToast } = useStore()
+  const { push, records, logout, showToast } = useStore()
 
   const menu = [
     { icon: User, label: "我的资料", onClick: () => push({ type: "profileInfo" }) },
@@ -58,36 +58,17 @@ export function ProfilePage() {
           ))}
         </div>
 
-        {/* employee login toggle */}
-        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-4">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <div className="flex-1">
-            <p className="text-sm text-foreground">内部员工模式</p>
-            <p className="text-xs text-muted-foreground">开启后可在详情页查看价格</p>
-          </div>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={isEmployee}
-            onClick={() => {
-              setEmployee(!isEmployee)
-              showToast(isEmployee ? "已退出员工模式" : "已进入员工模式")
-            }}
-            className={cn(
-              "relative h-6 w-11 rounded-full transition-colors",
-              isEmployee ? "bg-primary" : "bg-input",
-            )}
-          >
-            <span
-              className={cn(
-                "absolute top-0.5 h-5 w-5 rounded-full bg-background transition-transform",
-                isEmployee ? "translate-x-[22px]" : "translate-x-0.5",
-              )}
-            />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => {
+            logout()
+            showToast("已退出登录")
+          }}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-4 text-sm text-muted-foreground transition-colors active:bg-secondary"
+        >
+          <LogOut className="h-4 w-4" />
+          退出登录
+        </button>
       </div>
     </div>
   )

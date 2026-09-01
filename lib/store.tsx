@@ -21,9 +21,10 @@ type StoreValue = {
   favorites: string[]
   toggleFavorite: (id: string) => void
   isFavorite: (id: string) => boolean
-  // employee login
-  isEmployee: boolean
-  setEmployee: (v: boolean) => void
+  // auth
+  isLoggedIn: boolean
+  login: () => void
+  logout: () => void
   // records
   records: SampleRecord[]
   addRecord: (r: Omit<SampleRecord, "id" | "createdAt" | "status">) => void
@@ -47,7 +48,7 @@ const StoreContext = createContext<StoreValue | null>(null)
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>(["p1", "p5"])
-  const [isEmployee, setEmployee] = useState(false)
+  const [isLoggedIn, setLoggedIn] = useState(false)
   const [records, setRecords] = useState<SampleRecord[]>(initialRecords)
   const [recentSearches, setRecentSearches] = useState<string[]>(["亚麻", "鼠尾草"])
   const [tab, setTab] = useState<Tab>("cards")
@@ -59,6 +60,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const isFavorite = useCallback((id: string) => favorites.includes(id), [favorites])
+
+  const login = useCallback(() => setLoggedIn(true), [])
+  const logout = useCallback(() => setLoggedIn(false), [])
 
   const addRecord = useCallback((r: Omit<SampleRecord, "id" | "createdAt" | "status">) => {
     const now = new Date()
@@ -96,8 +100,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       favorites,
       toggleFavorite,
       isFavorite,
-      isEmployee,
-      setEmployee,
+      isLoggedIn,
+      login,
+      logout,
       records,
       addRecord,
       recentSearches,
@@ -116,7 +121,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       favorites,
       toggleFavorite,
       isFavorite,
-      isEmployee,
+      isLoggedIn,
+      login,
+      logout,
       records,
       addRecord,
       recentSearches,

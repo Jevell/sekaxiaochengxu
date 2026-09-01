@@ -5,12 +5,11 @@ import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 
 export function ProfileInfoScreen() {
-  const { pop, isEmployee } = useStore()
+  const { pop } = useStore()
 
   const info = [
     { label: "昵称", value: "陈女士" },
     { label: "手机号", value: "138 **** 6621" },
-    { label: "身份", value: isEmployee ? "内部员工" : "普通客户" },
     { label: "常用档口", value: "东升面料 A12 档口" },
     { label: "所在地区", value: "广东 · 佛山" },
   ]

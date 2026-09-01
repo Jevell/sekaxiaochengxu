@@ -10,6 +10,7 @@ import { CutSampleSheet } from "@/components/cut-sample-sheet"
 import { ColorCardPage } from "@/components/pages/color-card-page"
 import { FavoritesPage } from "@/components/pages/favorites-page"
 import { ProfilePage } from "@/components/pages/profile-page"
+import { LoginPage } from "@/components/pages/login-page"
 import { SearchScreen } from "@/components/screens/search-screen"
 import { ProductDetail } from "@/components/screens/product-detail"
 import { RecordsScreen } from "@/components/screens/records-screen"
@@ -18,13 +19,13 @@ import { ServiceScreen } from "@/components/screens/service-screen"
 import { ProfileInfoScreen } from "@/components/screens/profile-info-screen"
 
 function TabPages() {
-  const { tab } = useStore()
+  const { tab, isLoggedIn } = useStore()
 
   return (
     <div className="min-h-full">
       {tab === "cards" && <ColorCardPage />}
       {tab === "favorites" && <FavoritesPage />}
-      {tab === "profile" && <ProfilePage />}
+      {tab === "profile" && (isLoggedIn ? <ProfilePage /> : <LoginPage />)}
     </div>
   )
 }
