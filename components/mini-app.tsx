@@ -17,34 +17,37 @@ import { RecordDetail } from "@/components/screens/record-detail"
 import { ServiceScreen } from "@/components/screens/service-screen"
 import { ProfileInfoScreen } from "@/components/screens/profile-info-screen"
 
-function Screens({ onApplySample }: { onApplySample: (p: Product) => void }) {
-  const { tab, currentScreen } = useStore()
+function TabPages() {
+  const { tab } = useStore()
 
   return (
-    <>
-      {/* tab pages stay mounted underneath to preserve scroll & state */}
-      <div className="min-h-full">
-        {tab === "cards" && <ColorCardPage />}
-        {tab === "favorites" && <FavoritesPage />}
-        {tab === "profile" && <ProfilePage />}
-      </div>
+    <div className="min-h-full">
+      {tab === "cards" && <ColorCardPage />}
+      {tab === "favorites" && <FavoritesPage />}
+      {tab === "profile" && <ProfilePage />}
+    </div>
+  )
+}
 
-      {currentScreen && (
-        <div className="absolute inset-0 z-30 overflow-y-auto bg-background">
-          {currentScreen.type === "search" && <SearchScreen />}
-          {currentScreen.type === "product" && (
-            <ProductDetail
-              product={products.find((p) => p.id === currentScreen.id)!}
-              onApplySample={onApplySample}
-            />
-          )}
-          {currentScreen.type === "records" && <RecordsScreen />}
-          {currentScreen.type === "recordDetail" && <RecordDetail id={currentScreen.id} />}
-          {currentScreen.type === "service" && <ServiceScreen />}
-          {currentScreen.type === "profileInfo" && <ProfileInfoScreen />}
-        </div>
+function ScreenOverlay({ onApplySample }: { onApplySample: (p: Product) => void }) {
+  const { currentScreen } = useStore()
+
+  if (!currentScreen) return null
+
+  return (
+    <div className="no-scrollbar absolute inset-0 z-30 overflow-y-auto bg-background">
+      {currentScreen.type === "search" && <SearchScreen />}
+      {currentScreen.type === "product" && (
+        <ProductDetail
+          product={products.find((p) => p.id === currentScreen.id)!}
+          onApplySample={onApplySample}
+        />
       )}
-    </>
+      {currentScreen.type === "records" && <RecordsScreen />}
+      {currentScreen.type === "recordDetail" && <RecordDetail id={currentScreen.id} />}
+      {currentScreen.type === "service" && <ServiceScreen />}
+      {currentScreen.type === "profileInfo" && <ProfileInfoScreen />}
+    </div>
   )
 }
 
@@ -53,10 +56,14 @@ function AppInner() {
   const [cutSample, setCutSample] = useState<Product | null>(null)
 
   return (
-    <div className="relative flex h-full flex-col">
-      <div className="no-scrollbar relative flex-1 overflow-y-auto">
-        <Screens onApplySample={setCutSample} />
+    <div className="relative flex h-full flex-col overflow-hidden">
+      {/* tab pages scroll independently underneath */}
+      <div className="no-scrollbar flex-1 overflow-y-auto">
+        <TabPages />
       </div>
+
+      {/* full-frame overlay, own scroll, does not move with tab pages */}
+      <ScreenOverlay onApplySample={setCutSample} />
 
       {/* bottom nav only on tab pages */}
       {!currentScreen && <BottomNav />}
