@@ -79,7 +79,7 @@ export function ProductDetail({
         <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-border" />
 
         {/* category tabs */}
-        <div className="no-scrollbar flex gap-2 overflow-x-auto px-4">
+        <div className="flex flex-wrap gap-2 px-4">
           {groups.map((g) => (
             <button
               key={g.type}
