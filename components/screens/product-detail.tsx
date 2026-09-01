@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { ChevronLeft, Heart, Headset, Lock, Scissors } from "lucide-react"
-import type { Product } from "@/lib/data"
+import { useMemo, useState } from "react"
+import { ChevronLeft, Heart, Headset, Scissors } from "lucide-react"
+import { imageTypeMeta, type Product } from "@/lib/data"
 import { useStore } from "@/lib/store"
 import { cn } from "@/lib/utils"
 
@@ -13,18 +13,38 @@ export function ProductDetail({
   product: Product
   onApplySample: (p: Product) => void
 }) {
-  const { pop, push, isFavorite, toggleFavorite, isEmployee, showToast } = useStore()
-  const [active, setActive] = useState(0)
+  const { pop, push, isFavorite, toggleFavorite, showToast } = useStore()
   const faved = isFavorite(product.id)
 
-  const gallery = product.images
-  const showDots = gallery.length > 1
+  // only keep categories that actually have images, in the defined order
+  const groups = useMemo(
+    () =>
+      imageTypeMeta
+        .map((meta) => {
+          const g = product.imageGroups.find((ig) => ig.type === meta.type)
+          return g && g.images.length > 0 ? { ...meta, images: g.images } : null
+        })
+        .filter((g): g is { type: (typeof imageTypeMeta)[number]["type"]; label: string; images: string[] } => g !== null),
+    [product],
+  )
+
+  // flat list of every image, tagged with its group, for the main viewer
+  const flat = useMemo(
+    () => groups.flatMap((g) => g.images.map((src) => ({ src, type: g.type, label: g.label }))),
+    [groups],
+  )
+
+  const [activeType, setActiveType] = useState(groups[0]?.type)
+  const [mainSrc, setMainSrc] = useState(flat[0]?.src)
+
+  const thumbs = groups.find((g) => g.type === activeType)?.images ?? []
 
   const specs = [
-    { label: "成分", value: product.composition },
-    { label: "克重", value: product.weight },
+    { label: "计价单位", value: `/ ${product.unit}` },
     { label: "幅宽", value: product.width },
-    { label: "颜色", value: product.colorName },
+    { label: "挂码", value: product.hangCode },
+    { label: "克重", value: product.weight },
+    { label: "成分", value: product.composition },
   ]
 
   return (
@@ -36,41 +56,60 @@ export function ProductDetail({
         <h1 className="truncate text-base font-medium text-foreground">{product.name}</h1>
       </header>
 
-      {/* gallery */}
-      <div className="relative">
-        <div
-          className="no-scrollbar flex snap-x snap-mandatory overflow-x-auto"
-          onScroll={(e) => {
-            const el = e.currentTarget
-            setActive(Math.round(el.scrollLeft / el.clientWidth))
-          }}
-        >
-          {gallery.map((src, i) => (
-            <img
-              key={i}
-              src={src || "/placeholder.svg"}
-              alt={`${product.name} 图 ${i + 1}`}
-              className="aspect-square w-full shrink-0 snap-center object-cover md:aspect-[4/3]"
-            />
-          ))}
-        </div>
-        {showDots && (
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
-            {gallery.map((_, i) => (
-              <span
-                key={i}
-                className={cn(
-                  "h-1.5 rounded-full transition-all",
-                  i === active ? "w-4 bg-primary" : "w-1.5 bg-background/70",
-                )}
-              />
-            ))}
-          </div>
-        )}
+      {/* main image */}
+      <div className="relative bg-muted">
+        <img
+          src={mainSrc || "/placeholder.svg"}
+          alt={product.name}
+          className="aspect-square w-full object-cover md:aspect-[4/3]"
+        />
+        <span className="absolute left-3 top-3 rounded-full bg-foreground/60 px-2.5 py-1 text-xs text-background backdrop-blur">
+          {flat.find((f) => f.src === mainSrc)?.label}
+        </span>
+      </div>
+
+      {/* category tabs */}
+      <div className="no-scrollbar flex gap-2 overflow-x-auto px-4 pt-3">
+        {groups.map((g) => (
+          <button
+            key={g.type}
+            type="button"
+            onClick={() => {
+              setActiveType(g.type)
+              setMainSrc(g.images[0])
+            }}
+            className={cn(
+              "shrink-0 rounded-full px-3.5 py-1.5 text-sm transition-colors",
+              activeType === g.type
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-secondary-foreground",
+            )}
+          >
+            {g.label}
+            <span className="ml-1 opacity-70">{g.images.length}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* thumbnails for the active category */}
+      <div className="no-scrollbar flex gap-2 overflow-x-auto px-4 py-3">
+        {thumbs.map((src, i) => (
+          <button
+            key={src + i}
+            type="button"
+            onClick={() => setMainSrc(src)}
+            className={cn(
+              "h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 transition-colors",
+              mainSrc === src ? "border-primary" : "border-transparent",
+            )}
+          >
+            <img src={src || "/placeholder.svg"} alt="" className="h-full w-full object-cover" />
+          </button>
+        ))}
       </div>
 
       {/* title block */}
-      <div className="border-b border-border px-4 py-4">
+      <div className="border-b border-t border-border px-4 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h2 className="text-lg font-semibold text-foreground">{product.name}</h2>
@@ -85,17 +124,8 @@ export function ProductDetail({
           </div>
         </div>
 
-        {/* price / employee only */}
-        <div className="mt-3">
-          {isEmployee ? (
-            <p className="text-xl font-semibold text-primary">{product.price}</p>
-          ) : (
-            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <Lock className="h-3.5 w-3.5" />
-              价格仅内部员工可见
-            </div>
-          )}
-        </div>
+        {/* price */}
+        <p className="mt-3 text-xl font-semibold text-primary">{product.price}</p>
 
         <div className="mt-3 flex flex-wrap gap-2">
           {product.tags.map((t) => (

@@ -1,12 +1,30 @@
+export type ImageType = "main" | "front" | "fold" | "ruler" | "print"
+
+export const imageTypeMeta: { type: ImageType; label: string }[] = [
+  { type: "main", label: "大图" },
+  { type: "front", label: "正面图" },
+  { type: "fold", label: "折脚图" },
+  { type: "ruler", label: "尺子图" },
+  { type: "print", label: "印花图" },
+]
+
+export type ImageGroup = {
+  type: ImageType
+  images: string[]
+}
+
 export type Product = {
   id: string
   name: string
   code: string
   category: string
   images: string[]
+  imageGroups: ImageGroup[]
   composition: string
   weight: string
   width: string
+  unit: string
+  hangCode: string
   colorName: string
   colorHex: string
   price: string
@@ -48,9 +66,18 @@ export const products: Product[] = [
     code: "LN-2401",
     category: "cotton",
     images: ["/fabrics/linen-oat.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/linen-oat.png"] },
+      { type: "front", images: ["/fabrics/linen-front.png"] },
+      { type: "fold", images: ["/fabrics/linen-fold.png"] },
+      { type: "ruler", images: ["/fabrics/linen-ruler.png"] },
+      { type: "print", images: ["/fabrics/linen-print.png"] },
+    ],
     composition: "100% 亚麻",
     weight: "220 g/m²",
     width: "145 cm",
+    unit: "米",
+    hangCode: "A-08",
     colorName: "燕麦色",
     colorHex: "#d8cbb0",
     price: "¥ 38.00 / 米",
@@ -62,9 +89,15 @@ export const products: Product[] = [
     code: "CT-1088",
     category: "cotton",
     images: ["/fabrics/sage-cotton.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/sage-cotton.png"] },
+      { type: "front", images: ["/fabrics/sage-cotton.png"] },
+    ],
     composition: "100% 精梳棉",
     weight: "180 g/m²",
     width: "150 cm",
+    unit: "米",
+    hangCode: "B-12",
     colorName: "鼠尾草绿",
     colorHex: "#9caa93",
     price: "¥ 26.50 / 米",
@@ -76,9 +109,15 @@ export const products: Product[] = [
     code: "DN-3302",
     category: "denim",
     images: ["/fabrics/navy-denim.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/navy-denim.png"] },
+      { type: "front", images: ["/fabrics/navy-denim.png"] },
+    ],
     composition: "98% 棉 2% 氨纶",
     weight: "340 g/m²",
     width: "148 cm",
+    unit: "米",
+    hangCode: "C-05",
     colorName: "靛蓝色",
     colorHex: "#37485f",
     price: "¥ 45.00 / 米",
@@ -90,9 +129,15 @@ export const products: Product[] = [
     code: "WL-5510",
     category: "wool",
     images: ["/fabrics/terracotta-wool.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/terracotta-wool.png"] },
+      { type: "front", images: ["/fabrics/terracotta-wool.png"] },
+    ],
     composition: "70% 羊毛 30% 涤纶",
     weight: "420 g/m²",
     width: "150 cm",
+    unit: "米",
+    hangCode: "D-21",
     colorName: "陶土棕",
     colorHex: "#b56a4b",
     price: "¥ 88.00 / 米",
@@ -104,9 +149,15 @@ export const products: Product[] = [
     code: "SK-2205",
     category: "silk",
     images: ["/fabrics/cream-silk.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/cream-silk.png"] },
+      { type: "front", images: ["/fabrics/cream-silk.png"] },
+    ],
     composition: "100% 桑蚕丝",
     weight: "120 g/m²",
     width: "114 cm",
+    unit: "米",
+    hangCode: "E-03",
     colorName: "奶油白",
     colorHex: "#efe6d3",
     price: "¥ 128.00 / 米",
@@ -118,9 +169,15 @@ export const products: Product[] = [
     code: "TW-4417",
     category: "cotton",
     images: ["/fabrics/olive-twill.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/olive-twill.png"] },
+      { type: "front", images: ["/fabrics/olive-twill.png"] },
+    ],
     composition: "100% 棉斜纹",
     weight: "260 g/m²",
     width: "150 cm",
+    unit: "米",
+    hangCode: "B-19",
     colorName: "橄榄绿",
     colorHex: "#6f7350",
     price: "¥ 34.00 / 米",
@@ -132,9 +189,15 @@ export const products: Product[] = [
     code: "CF-7701",
     category: "chiffon",
     images: ["/fabrics/blush-chiffon.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/blush-chiffon.png"] },
+      { type: "front", images: ["/fabrics/blush-chiffon.png"] },
+    ],
     composition: "100% 聚酯纤维",
     weight: "75 g/m²",
     width: "150 cm",
+    unit: "米",
+    hangCode: "F-07",
     colorName: "藕粉色",
     colorHex: "#e6c9cb",
     price: "¥ 22.00 / 米",
@@ -146,9 +209,15 @@ export const products: Product[] = [
     code: "WL-5588",
     category: "wool",
     images: ["/fabrics/charcoal-wool.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/charcoal-wool.png"] },
+      { type: "front", images: ["/fabrics/charcoal-wool.png"] },
+    ],
     composition: "80% 羊毛 20% 涤纶",
     weight: "380 g/m²",
     width: "150 cm",
+    unit: "米",
+    hangCode: "D-33",
     colorName: "炭灰色",
     colorHex: "#4a4a4d",
     price: "¥ 96.00 / 米",
@@ -160,9 +229,15 @@ export const products: Product[] = [
     code: "CD-6620",
     category: "corduroy",
     images: ["/fabrics/mustard-corduroy.png"],
+    imageGroups: [
+      { type: "main", images: ["/fabrics/mustard-corduroy.png"] },
+      { type: "front", images: ["/fabrics/mustard-corduroy.png"] },
+    ],
     composition: "100% 棉",
     weight: "300 g/m²",
     width: "140 cm",
+    unit: "米",
+    hangCode: "G-02",
     colorName: "姜黄色",
     colorHex: "#c9922f",
     price: "¥ 42.00 / 米",
