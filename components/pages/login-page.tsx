@@ -32,9 +32,9 @@ export function LoginPage() {
       {/* brand */}
       <div className="flex flex-col items-center">
         <div className="flex h-20 w-20 items-center justify-center rounded-3xl bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-          <span className="font-serif text-3xl font-semibold">锦</span>
+          <span className="font-serif text-3xl font-semibold">廣</span>
         </div>
-        <h1 className="mt-6 font-serif text-2xl font-semibold text-foreground">云锦电子色卡</h1>
+        <h1 className="mt-6 font-serif text-2xl font-semibold text-foreground">廣承布业●色卡集</h1>
         <p className="mt-2 text-sm text-muted-foreground">登录后查看面料详情与剪样申请</p>
       </div>
 

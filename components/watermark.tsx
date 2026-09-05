@@ -1,14 +1,14 @@
 "use client"
 
 /**
- * 品牌水印：重复平铺的“锦 · 云锦色卡”文字，半透明叠加在图片上。
+ * 品牌水印：重复平铺的“廣 · 廣承布业色卡集”文字，半透明叠加在图片上。
  * 用文字 logo 与登录页保持一致的品牌标识。
  */
 export function Watermark({ className = "" }: { className?: string }) {
   const cell = (
     <div className="flex rotate-[-24deg] items-center gap-1 whitespace-nowrap text-background/45">
-      <span className="font-serif text-sm font-semibold leading-none">锦</span>
-      <span className="text-[10px] tracking-wide">云锦色卡</span>
+      <span className="font-serif text-sm font-semibold leading-none">廣</span>
+      <span className="text-[10px] tracking-wide">廣承布业色卡集</span>
     </div>
   )
 

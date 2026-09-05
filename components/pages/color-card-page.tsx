@@ -41,7 +41,7 @@ export function ColorCardPage() {
       <header className="sticky top-0 z-20 bg-background/90 px-4 pb-3 pt-4 backdrop-blur">
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <h1 className="font-serif text-xl font-semibold tracking-wide text-foreground">云锦色卡</h1>
+            <h1 className="font-serif text-xl font-semibold tracking-wide text-foreground">廣承布业●色卡集</h1>
             <p className="text-xs text-muted-foreground">臻选面料 · 一手货源</p>
           </div>
           <button

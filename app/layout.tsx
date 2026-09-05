@@ -16,7 +16,7 @@ const notoSerif = Noto_Serif_SC({
 })
 
 export const metadata: Metadata = {
-  title: '电子色卡 · 面料展示',
+  title: '廣承布业●色卡集',
   description: '查看面料产品、搜索、收藏并提交剪样申请',
   generator: 'v0.app',
   icons: {
